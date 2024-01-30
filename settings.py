@@ -3,6 +3,15 @@ level_map = [
 '         X          XXX ',
 '        PXX         XXX ',
 '        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
 '       XXXXXX   XXX     ']
 
 tile_size = 24
