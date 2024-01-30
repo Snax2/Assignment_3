@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
 
     def import_character_data(self):
         character_path = '../'#must do after creating characters
-        self.animations = {'idle':[], 'run':[], 'jump:[],'fall':[]}
+        self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
