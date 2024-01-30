@@ -45,6 +45,7 @@ class Level:
             player.speed = 6
 
 #Collisions
+    #Horizontal
     def horizontal_collision(self):
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speed
@@ -57,6 +58,19 @@ class Level:
                     player.rect.right = sprite.rect.left
 
 
+    #Vertical
+    def vertical_collission(self):
+        player = self.player.sprite
+        player.apply_gravity()
+
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.y > 0:
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0
+                elif player.direction.y < 0:
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0
 
 
 
@@ -70,6 +84,7 @@ class Level:
         #player
         self.player.update()
         self.horizontal_collision()
+        self.vertical_collission()
         self.player.draw(self.display_surface)
 
 

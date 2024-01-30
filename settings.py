@@ -1,18 +1,18 @@
 level_map = [
 '         X          XXX ',
 '         X          XXX ',
-'        PXX         XXX ',
+'        XX         XXX ',
+'        XXXX    XXX     ',
+'        XXXX    XXX     ',
+'        XXXX  P XXX     ',
 '        XXXX    XXX     ',
 '        XXXX    XXX     ',
 '        XXXX    XXX     ',
 '        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'        XXXX    XXX     ',
-'       XXXXXX   XXX     ']
+'                        ',
+'                        ',
+'XXXXXXXXXXXX    XXXXXXXX',
+'       XXXXXX   XXX X   ']
 
 tile_size = 24
 screen_width = 1200
