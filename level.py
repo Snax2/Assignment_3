@@ -27,7 +27,6 @@ class Level:
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
 
-
     #camera scrolling
     def scroll_x(self):
         player = self.player.sprite
@@ -57,7 +56,6 @@ class Level:
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
 
-
     #Vertical
     def vertical_collission(self):
         player = self.player.sprite
@@ -71,9 +69,6 @@ class Level:
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
-
-
-
 
     def run(self):
         #level tiles

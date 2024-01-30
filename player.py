@@ -1,5 +1,5 @@
 import pygame
-
+import support
 
 #Player sprite
 class Player(pygame.sprite.Sprite):
@@ -15,7 +15,6 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.1
         self.jump_height = -2
 
-
     #User input
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -30,14 +29,18 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             self.jump()
 
-    #jump height
+    def import_character_data(self):
+        character_path = '../'#must do after creating characters
+        self.animations = {'idle':[], 'run':[], 'jump:[],'fall':[]}
+
+        for animation in self.animations.keys():
+            full_path = character_path + animation
+            self.animations[animation] = import_folder(full_path)    #jump height
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
-
     def jump (self):
         self.direction.y = self.jump_height
-
 
     #
     def update(self):
