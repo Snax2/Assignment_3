@@ -5,15 +5,15 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
-        self.image = pygame.Surface((32,64))
+        self.image = pygame.Surface((24,48))
         self.image.fill('blue')
         self.rect = self.image.get_rect(topleft = pos)
 
         #Player movement
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 6
-        self.gravity = 0.8
-        self.jump_height = -16
+        self.gravity = 0.1
+        self.jump_height = -2
 
 
     #User input
@@ -42,5 +42,4 @@ class Player(pygame.sprite.Sprite):
     #
     def update(self):
         self.get_input()
-        self.rect.x += self.direction.x * self.speed
         self.apply_gravity()
