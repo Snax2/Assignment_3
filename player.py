@@ -1,5 +1,5 @@
 import pygame
-from support import import_folder
+from Support import import_folder
 
 #Player sprite
 class Player(pygame.sprite.Sprite):
@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
 
     def import_character_data(self):
         character_path = '../Images/Bart/'
-        self.animations = {'Standing':[], 'Running':[], 'Jumping':[], 'Shooting':[], 'Jump_Shoot':[], 'Falling':[]}
+        self.animations = {'Standing':[],'Running':[],'Jumping':[],'Shooting':[],'Jump_Shoot':[],'Falling':[]}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
