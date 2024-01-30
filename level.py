@@ -26,6 +26,24 @@ class Level:
                 if cell == 'P':
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
+
+
+    #camera scrolling
+    def scroll_x(self):
+        player = self.player.sprite
+        player_x = player.rect.centerx
+        direction_x = player.direction.x
+
+        if player_x < 200 and direction_x < 0:
+            self.world_shift = 6
+            player.speed = 0
+        elif player_x > 1000 and direction_x > 0:
+            self.world_shift = -6
+            player.speed = 0
+        else:
+            self.world_shift = 0
+            player.speed = 6
+
     def run(self):
         #level tiles
         self.tiles.update(self.world_shift)
@@ -34,3 +52,5 @@ class Level:
         #player
         self.player.update()
         self.player.draw(self.display_surface)
+        self.scroll_x()
+
