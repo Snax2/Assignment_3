@@ -1,5 +1,6 @@
 import pygame
 from Support import import_folder
+import os
 
 #Player sprite
 class Player(pygame.sprite.Sprite):
@@ -8,8 +9,7 @@ class Player(pygame.sprite.Sprite):
         self.import_character_data()
         self.frame_index = 0
         self.animation_speed = 0.15
-        self.image = pygame.Surface((24,48)) #change
-        self.image.fill('blue') # delete
+        self.image = self.animations['Running'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 
         #Player movement
@@ -20,12 +20,14 @@ class Player(pygame.sprite.Sprite):
 
 
     def import_character_data(self):
-        character_path = '../Images/Bart/'
-        self.animations = {'Standing':[],'Running':[],'Jumping':[],'Shooting':[],'Jump_Shoot':[],'Falling':[]}
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        character_path = os.path.join(script_dir, '/Users/snax/Desktop/SUPER BART/Data/Images/Bart')
+        self.animations = {'Standing': [], 'Running': [], 'Jumping': [], 'Shooting': [], 'Jump_Shoot': [], 'Falling': []}
 
         for animation in self.animations.keys():
-            full_path = character_path + animation
+            full_path = os.path.join(character_path, animation)
             self.animations[animation] = import_folder(full_path)
+
 
     #User input
     def get_input(self):
