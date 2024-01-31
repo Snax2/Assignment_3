@@ -16,7 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 6
         self.gravity = 0.1
-        self.jump_height = -2
+        self.jump_height = -5
+        self.is_shooting = False
 
     # User status
         self.status = 'Standing'
@@ -60,6 +61,17 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         if keys[pygame.K_SPACE]:
             self.jump()
+        if keys[pygame.K_s]:
+            self.start_shooting()
+        else:
+            self.stop_shooting()
+
+    def start_shooting(self):
+        self.is_shooting = True
+
+    def stop_shooting(self):
+        self.is_shooting = False
+
 
     #jump height
     def apply_gravity(self):
@@ -68,18 +80,21 @@ class Player(pygame.sprite.Sprite):
     def jump (self):
         self.direction.y = self.jump_height
 
-
     def get_status(self):
-        if self.direction.y < 0:
-            self.status = 'Jumping'
-        elif self.direction.y > 1:
-            self.status = 'Falling'
+        if self.direction.y < 0 or self.direction.y > 1:
+            if self.is_shooting:
+                self.status = 'Jump_Shoot'
+            else:
+                self.status = 'Jumping' if self.direction.y < 0 else 'Falling'
         else:
-            if self.direction.x != 0:
-                self.status = 'Running'
+            if self.direction.x != 0 or self.is_shooting:
+                if self.is_shooting:
+                    if self.direction.y == 0:
+                        self.status = 'Shooting'
+                else:
+                    self.status = 'Running'
             else:
                 self.status = 'Standing'
-
 
     #
     def update(self):
