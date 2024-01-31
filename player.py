@@ -15,13 +15,18 @@ class Player(pygame.sprite.Sprite):
         #Player movement
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 6
-        self.gravity = 0.1
-        self.jump_height = -5
+        self.gravity = 0.4
+        self.jump_height = -10
         self.is_shooting = False
 
     # User status
         self.status = 'Standing'
         self.right_facing = True
+        self.on_ground = False
+        self.on_ceiling = False
+        self.on_right = False
+        self.on_left = False
+
 
     def import_character_data(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +51,13 @@ class Player(pygame.sprite.Sprite):
         else:
             flip_image = pygame.transform.flip(image,True,False)
             self.image = flip_image
-
+        #
+        if self.on_ground:
+            self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+        elif self.on_ceiling:
+            self.rect = self.image.get_rect(midtop=self.rect.midtop)
+        else:
+            self.rect = self.image.get_rect(center=self.rect.center)
     #User input
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -59,7 +70,7 @@ class Player(pygame.sprite.Sprite):
             self.right_facing = False
         else:
             self.direction.x = 0
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
         if keys[pygame.K_s]:
             self.start_shooting()
