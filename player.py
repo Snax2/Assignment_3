@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
 
     # User status
         self.status = 'Standing'
+        self.right_facing = True
 
     def import_character_data(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +39,12 @@ class Player(pygame.sprite.Sprite):
         if self.frame_index >= len(animation):
             self.frame_index = 0
 
-        self.image = animation[int(self.frame_index)]
+        image = animation[int(self.frame_index)]
+        if self.right_facing:
+            self.image = image
+        else:
+            flip_image = pygame.transform.flip(image,True,False)
+            self.image = flip_image
 
     #User input
     def get_input(self):
@@ -46,8 +52,10 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_RIGHT]:
             self.direction.x = 1
+            self.right_facing = True
         elif keys[pygame.K_LEFT]:
             self.direction.x = -1
+            self.right_facing = False
         else:
             self.direction.x = 0
         if keys[pygame.K_SPACE]:
@@ -64,7 +72,7 @@ class Player(pygame.sprite.Sprite):
     def get_status(self):
         if self.direction.y < 0:
             self.status = 'Jumping'
-        elif self.direction.y > 0:
+        elif self.direction.y > 1:
             self.status = 'Falling'
         else:
             if self.direction.x != 0:
