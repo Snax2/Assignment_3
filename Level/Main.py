@@ -8,7 +8,7 @@ pygame.init()
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
-level = Level(level_data,screen)
+level = Level(level_1,screen)
 
 
 while True:
