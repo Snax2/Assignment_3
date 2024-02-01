@@ -2,6 +2,9 @@ import pygame
 from Support import import_folder
 import os
 
+
+
+
 #Player sprite
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos):
@@ -17,9 +20,11 @@ class Player(pygame.sprite.Sprite):
         self.speed = 6
         self.gravity = 0.4
         self.jump_height = -10
-        self.is_shooting = False
+        self.shoot = False
 
-    # User status
+
+
+        # User status
         self.status = 'Standing'
         self.right_facing = True
         self.on_ground = False
@@ -28,9 +33,11 @@ class Player(pygame.sprite.Sprite):
         self.on_left = False
 
 
+
+
     def import_character_data(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        character_path = os.path.join(script_dir, '/Users/snax/Desktop/SUPER BART/Data/Images/Bart/')
+        character_path = os.path.join(script_dir, '/Users/snax/Desktop/SUPER BART/Data/Images/Bart/Graphics/')
         self.animations = {'Standing': [], 'Running': [], 'Jumping': [], 'Shooting': [], 'Jump_Shoot': [], 'Falling': []}
 
         for animation in self.animations.keys():
@@ -85,12 +92,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.stop_shooting()
 
+
     def start_shooting(self):
         self.is_shooting = True
 
     def stop_shooting(self):
         self.is_shooting = False
-
 
     #jump height
     def apply_gravity(self):
