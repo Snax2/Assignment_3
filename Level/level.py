@@ -18,9 +18,9 @@ class Level:
         collectables_layout = import_csv_layout(level_data['Collectables'])
         self.collectables_sprites = self.create_tile_group(collectables_layout,'Collectables')
 
-        #Enemies must change
-        #platform_layout = import_csv_layout(level_data['Enemies'])
-        #self.platform_collectables = self.create_tile_group(platform_layout, 'Enemies')
+        #Enemies
+        ememy_layout = import_csv_layout(level_data['Enemies'])
+        self.ememy_sprite = self.create_tile_group(enemy_layout, 'Enemies')
 
         #Start/Stop must change
         #platform_layout = import_csv_layout(level_data['Start/Stop'])
@@ -50,6 +50,10 @@ class Level:
                             if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin')
                             if val == '4': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin')
                             #change above to star after creating png files
+
+
+                    if type == 'enemies':
+                        sprite = Enemy(tile_size,x,y)
 
                     sprite_group.add(sprite)
 
