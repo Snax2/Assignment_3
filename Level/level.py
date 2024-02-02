@@ -2,6 +2,7 @@ import pygame
 from support import import_csv_layout, import_graphics
 from settings import tile_size
 from tiles import Tile, StaticTile, Coin
+from Enemies import Enemy
 
 class Level:
     def __init__(self,level_data,surface):
@@ -19,16 +20,16 @@ class Level:
         self.collectables_sprites = self.create_tile_group(collectables_layout,'Collectables')
 
         #Enemies
-        ememy_layout = import_csv_layout(level_data['Enemies'])
-        self.ememy_sprite = self.create_tile_group(enemy_layout, 'Enemies')
+        enemy_layout = import_csv_layout(level_data['Enemies'])
+        self.enemy_sprites = self.create_tile_group(enemy_layout, 'Enemies')
 
         #Start/Stop must change
         #platform_layout = import_csv_layout(level_data['Start/Stop'])
         #self.platform_collectables = self.create_tile_group(platform_layout, 'Start/Stop')
 
         #Constraints must change
-        #platform_layout = import_csv_layout(level_data['Constraints'])
-        #self.platform_collectables = self.create_tile_group(platform_layout, 'Constraints')
+        constraint_layout = import_csv_layout(level_data['Constraints'])
+        self.constraint_sprites = self.create_tile_group(constraint_layout, 'Constraints')
 
     def create_tile_group(self,layout,type):
         sprite_group = pygame.sprite.Group()
@@ -52,13 +53,20 @@ class Level:
                             #change above to star after creating png files
 
 
-                    if type == 'enemies':
+                    if type == 'Enemies':
                         sprite = Enemy(tile_size,x,y)
+
+                    if type == 'Constraints':
+                        sprite = Tile(tile_size,x,y)
 
                     sprite_group.add(sprite)
 
         return sprite_group
 
+    def enemy_turn(self):
+        for enemy in self.enemy_sprites.sprites():
+            if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
+                enemy.reverse()
 
 
     def run(self):
@@ -67,6 +75,14 @@ class Level:
         #Platforms
         self.platform_sprites.update(self.world_shift)
         self.platform_sprites.draw(self.display_surface)
+
+        #enemy
+        self.enemy_sprites.update(self.world_shift)
+        self.constraint_sprites.update(self.world_shift)
+        self.enemy_turn()
+        self.enemy_sprites.draw(self.display_surface)
+
+        #constraint
 
 
         #Collectables
