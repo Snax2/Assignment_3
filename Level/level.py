@@ -48,9 +48,9 @@ class Level:
 
 
                     if type == 'Collectables':
-                            if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin')
+                            if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Star')
                             if val == '4': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin')
-                            #change above to star after creating png files
+
 
 
                     if type == 'Enemies':
@@ -78,12 +78,11 @@ class Level:
 
         #enemy
         self.enemy_sprites.update(self.world_shift)
-        self.constraint_sprites.update(self.world_shift)
-        self.enemy_turn()
         self.enemy_sprites.draw(self.display_surface)
 
         #constraint
-
+        self.constraint_sprites.update(self.world_shift)
+        self.enemy_turn()
 
         #Collectables
         self.collectables_sprites.update(self.world_shift)
