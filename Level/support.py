@@ -2,15 +2,18 @@ from csv import reader
 from settings import tile_size
 import pygame.image
 import pygame
+import os
 from os import walk
 
-def import_folder(path):
+def import_folder(path, valid_extensions=('.png', '.jpg', '.jpeg', '.gif')):
     surface_list = []
-    for _,__,image_files in walk(path):
+    for _, _, image_files in walk(path):
         for image in image_files:
-            full_path = path + '/' + image
-            image_surface = pygame.image.load(full_path).convert_alpha()
-            surface_list.append(image_surface)
+            _, extension = os.path.splitext(image)
+            if extension.lower() in valid_extensions:
+                full_path = os.path.join(path, image)
+                image_surface = pygame.image.load(full_path).convert_alpha()
+                surface_list.append(image_surface)
 
     return surface_list
 
