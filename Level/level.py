@@ -3,6 +3,7 @@ from support import import_csv_layout, import_graphics
 from settings import tile_size
 from tiles import Tile, StaticTile, Coin
 from Enemies import Enemy
+from Background import Background
 
 class Level:
     def __init__(self,level_data,surface):
@@ -29,9 +30,9 @@ class Level:
         enemy_layout = import_csv_layout(level_data['Enemies'])
         self.enemy_sprites = self.create_tile_group(enemy_layout, 'Enemies')
 
-        #Start/Stop must change
-        #platform_layout = import_csv_layout(level_data['Start/Stop'])
-        #self.platform_collectables = self.create_tile_group(platform_layout, 'Start/Stop')
+        #Background
+        background_image_path = level_data.get('Background', '')
+        self.background = Background(background_image_path, surface.get_size())
 
         #Constraints must change
         constraint_layout = import_csv_layout(level_data['Constraints'])
@@ -81,27 +82,25 @@ class Level:
                     sprite = StaticTile(tile_size,x,y,door_surface)
                     self.goal.add(sprite)
 
-
-
-
     def enemy_turn(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
                 enemy.turn()
 
-
     def run(self):
-        #Run game
+
+        #Background
+        self.background.draw(self.display_surface)
 
         #Platforms
         self.platform_sprites.update(self.world_shift)
         self.platform_sprites.draw(self.display_surface)
 
-        #enemy
+        #Enemy
         self.enemy_sprites.update(self.world_shift)
-
         self.enemy_sprites.draw(self.display_surface)
 
+        #Constraints
         self.constraint_sprites.update(self.world_shift)
         self.enemy_turn()
 
