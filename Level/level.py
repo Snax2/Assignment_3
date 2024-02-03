@@ -1,16 +1,18 @@
 import pygame
 from support import import_csv_layout, import_graphics
-from settings import tile_size
+from settings import tile_size, screen_width
 from tiles import Tile, StaticTile, Coin
 from Enemies import Enemy
 from Background import Background
 from player import Player
+
 
 class Level:
     def __init__(self,level_data,surface):
         #General Setup
         self.display_surface = surface
         self.world_shift = 0
+        self.current_x = None
 
         # player
         player_layout = import_csv_layout(level_data['Start/Stop'])
@@ -130,6 +132,21 @@ class Level:
         if player.on_ceiling and player.direction.y > 0:
             player.on_ceiling = False
 
+    #camera scrolling
+    def scroll_x(self):
+        player = self.player.sprite
+        player_x = player.rect.centerx
+        direction_x = player.direction.x
+
+        if player_x < screen_width / 4 and direction_x < 0:
+            self.world_shift = 6
+            player.speed = 0
+        elif player_x > screen_width * 3/4 and direction_x > 0:
+            self.world_shift = -6
+            player.speed = 0
+        else:
+            self.world_shift = 0
+            player.speed = 6
 
     def run(self):
 
@@ -154,6 +171,7 @@ class Level:
 
         #Player
         self.player.update()
+        self.scroll_x()
         self.horizontal_collision()
         self.vertical_collission()
         self.player.draw(self.display_surface)
