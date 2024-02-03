@@ -8,7 +8,13 @@ class Level:
     def __init__(self,level_data,surface):
         #General Setup
         self.display_surface = surface
-        self.world_shift = 0
+        self.world_shift = -1
+
+        # player
+        player_layout = import_csv_layout(level_data['Start/Stop'])
+        self.player = pygame.sprite.GroupSingle()
+        self.goal = pygame.sprite.GroupSingle()
+        self.player_setup(player_layout)
 
         #Platform Setup
         platform_layout = import_csv_layout(level_data['Platforms'])
@@ -63,6 +69,21 @@ class Level:
 
         return sprite_group
 
+    def player_setup(self,layout):
+        for row_index, row in enumerate(layout):
+            for col_index, val in enumerate(row):
+                x = col_index * tile_size
+                y = row_index * tile_size
+                if val == '0':
+                    print('player here')
+                if val == '2':
+                    door_surface = pygame.image.load('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Start_Finish.png').convert_alpha()
+                    sprite = StaticTile(tile_size,x,y,door_surface)
+                    self.goal.add(sprite)
+
+
+
+
     def enemy_turn(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
@@ -87,5 +108,10 @@ class Level:
         #Collectables
         self.collectables_sprites.update(self.world_shift)
         self.collectables_sprites.draw(self.display_surface)
+
+        #Player
+        self.goal.update(self.world_shift)
+        self.goal.draw(self.display_surface)
+
 
 
