@@ -66,7 +66,7 @@ class Level:
     def enemy_turn(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
-                enemy.reverse()
+                enemy.turn()
 
 
     def run(self):
@@ -78,9 +78,9 @@ class Level:
 
         #enemy
         self.enemy_sprites.update(self.world_shift)
+
         self.enemy_sprites.draw(self.display_surface)
 
-        #constraint
         self.constraint_sprites.update(self.world_shift)
         self.enemy_turn()
 
