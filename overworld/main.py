@@ -1,14 +1,16 @@
 import pygame, sys
 from settings import *
 from Overworld import Overworld
+from Level import Level
 
 class Game:
     def __init__(self):
         self.max_level = 3
         self.overworld = Overworld(1,self.max_level,screen)
+        self.level = Level(3,screen)
 
     def run(self):
-        self.overworld.run()
+        self.level.run()
 
 #pygame setup
 pygame.init()

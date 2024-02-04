@@ -35,8 +35,10 @@ class Overworld:
 
         #logic
         self.move_direction = pygame.math.Vector2(0,0)
-        self.speed = 7
+        self.speed = 9
         self.moving = False
+
+
         #sprites
         self.setup_nodes()
         self.setup_token()
