@@ -5,12 +5,26 @@ from Level import Level
 
 class Game:
     def __init__(self):
-        self.max_level = 3
-        self.overworld = Overworld(1,self.max_level,screen)
-        self.level = Level(3,screen)
+        self.max_level = 2
+        self.overworld = Overworld(1,self.max_level,screen, self.create_level)
+        self.status = 'overworld'
+
+    def create_level(self,current_level):
+        self.level = Level(current_level,screen, self.load_overworld)
+        self.status = 'level'
+
+    def load_overworld(self, current_level, new_max_level):
+        if new_max_level > self.max_level:
+            self.max_level = new_max_level
+        self.overworld = Overworld(current_level,self.max_level,screen, self.create_level)
+        self.status = 'overworld'
 
     def run(self):
-        self.level.run()
+        if self.status == 'overworld':
+            self.overworld.run()
+        else:
+            self.level.run()
+
 
 #pygame setup
 pygame.init()

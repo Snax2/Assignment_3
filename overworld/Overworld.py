@@ -12,8 +12,14 @@ class Node(pygame.sprite.Sprite):
             self.image.fill('red')
         self.rect = self.image.get_rect(center = pos)
 
-        self.detection_zone = pygame.Rect(self.rect.centerx - (token_speed/2),self.rect.centery - (token_speed),token_speed,token_speed)
+        center_width = int(self.rect.width * 0.2)
+        center_height = int(self.rect.height * 0.2)
 
+        self.detection_zone = pygame.Rect(
+            self.rect.centerx - (center_width / 2),
+            self.rect.centery - (center_height / 2),
+            center_width,
+            center_height)
 class Token(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -26,12 +32,13 @@ class Token(pygame.sprite.Sprite):
         self.rect.center = self.pos
 
 class Overworld:
-    def __init__(self,start_level,max_level,surface):
+    def __init__(self,start_level,max_level,surface, create_level):
 
         #setup
         self.display_surface = surface
         self.max_level = max_level
         self.current_level = start_level
+        self.create_level = create_level
 
         #logic
         self.move_direction = pygame.math.Vector2(0,0)
@@ -74,6 +81,8 @@ class Overworld:
                 self.move_direction = self.get_movement_data('previous')
                 self.current_level -= 1
                 self.moving = True
+            elif keys[pygame.K_SPACE]:
+                self.create_level(self.current_level)
 
     def get_movement_data(self,target):
         start = pygame.math.Vector2(self.nodes.sprites()[self.current_level].rect.center)
@@ -90,6 +99,9 @@ class Overworld:
         if self.moving and self.move_direction:
             self.token.sprite.pos += self.move_direction * self.speed
             target_node = self.nodes.sprites()[self.current_level]
+            # Round the position to avoid precision issues
+            rounded_pos = (round(self.token.sprite.pos[0]),round(self.token.sprite.pos[1])
+            )
             if target_node.detection_zone.collidepoint(self.token.sprite.pos):
                 self.moving = False
                 self.move_direction = pygame.math.Vector2(0,0)
