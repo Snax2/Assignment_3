@@ -4,13 +4,15 @@ from support import import_folder
 
 
 class Node(pygame.sprite.Sprite):
-    def __init__(self,pos,status,token_speed):
+    def __init__(self,pos,status,token_speed,path):
         super().__init__()
-        self.image = pygame.Surface((100,80))
+        self.frames = import_folder(path)
+        self.frame_index = 0
+        self.image = self.frames[self.frame_index]
         if status == 'available':
-            self.image.fill('blue')
+            self.status = 'available'
         else:
-            self.image.fill('red')
+            self.status = 'locked'
         self.rect = self.image.get_rect(center=pos)
 
         center_width = int(self.rect.width * 0.2)
@@ -65,15 +67,15 @@ class Overworld:
 
         for index, node_data in enumerate(levels.values()):
             if index <= self.max_level:
-                node_sprite = Node(node_data['node_pos'], 'available',self.speed)
+                node_sprite = Node(node_data['node_pos'], 'available',self.speed,node_data['node_graphics'])
             else:
-                node_sprite = Node(node_data['node_pos'],'locked',self.speed)
+                node_sprite = Node(node_data['node_pos'],'locked',self.speed,node_data['node_graphics'])
             self.nodes.add(node_sprite)
 
     def draw_path(self):
         points = [node['node_pos'] for index, node in enumerate(levels.values()) if index <= self.max_level]
         if len(points) >= 2:
-            pygame.draw.lines(self.display_surface, 'green', False, points, 5)
+            pygame.draw.lines(self.display_surface, 'crimson', False, points, 5)
 
     def input(self):
         keys = pygame.key.get_pressed()
