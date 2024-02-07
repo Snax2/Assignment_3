@@ -166,6 +166,18 @@ class Level:
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.load_overworld(self.current_level, self.new_max_level)
 
+    def check_enemy_collisions(self):
+        enemy_collisions = pygame.sprite.spritecollide(self.player.sprite,self.enemy_sprites,False)
+        if enemy_collisions:
+            for enemy in enemy_collisions:
+                enemy_center = enemy.rect.centery
+                enemy_top = enemy.rect.top
+                player_bottom = self.player.sprite.rect.bottom
+                if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
+                    self.player.sprite.direction.y = -7
+                    enemy.squish()
+
+
     def check_coin_collisions(self):
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.collectables_sprites, True)
         if collided_coins:
@@ -204,5 +216,5 @@ class Level:
         self.check_death()
         self.check_win()
         self.check_coin_collisions()
-
+        self.check_enemy_collisions()
 
