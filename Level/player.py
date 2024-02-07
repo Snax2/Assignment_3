@@ -7,7 +7,7 @@ import os
 
 #Player sprite
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos):
+    def __init__(self,pos,surface,change_health):
         super().__init__()
         self.import_character_data()
         self.frame_index = 0
@@ -31,6 +31,12 @@ class Player(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_right = False
         self.on_left = False
+        #Health
+        self.change_health = change_health
+        #self.invincible = False
+        #self.invincibility_duration = 400
+        #self.hurt_time = 0
+
 
 
     def import_character_data(self):
@@ -119,6 +125,8 @@ class Player(pygame.sprite.Sprite):
                     self.status = 'Running'
             else:
                 self.status = 'Standing'
+    def get_damage(self):
+        self.change_health(-10)
 
     def update(self):
         self.get_input()

@@ -42,4 +42,3 @@ class Enemy(AnimatedTile):
                 # If squish duration is over, remove the enemy from the game
                 self.kill()
 
-

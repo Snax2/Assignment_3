@@ -9,7 +9,7 @@ from Level_data import levels
 
 
 class Level:
-    def __init__(self,current_level, surface, load_overworld,change_score):
+    def __init__(self,current_level, surface, load_overworld,change_score, change_health):
         #General Setup
         self.display_surface = surface
         self.world_shift = 0
@@ -28,7 +28,7 @@ class Level:
         player_layout = import_csv_layout(level_data['Start/Stop'])
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
-        self.player_setup(player_layout)
+        self.player_setup(player_layout, change_health)
 
         #Platform Setup
         platform_layout = import_csv_layout(level_data['Platforms'])
@@ -83,14 +83,14 @@ class Level:
 
         return sprite_group
 
-    def player_setup(self,layout):
+    def player_setup(self,layout,change_health):
         for row_index, row in enumerate(layout):
             for col_index, val in enumerate(row):
                 x = col_index * tile_size
                 y = row_index * tile_size
                 if val == '0':
-                    new_player = Player((x, y))
-                    self.player.add(new_player)
+                    sprite = Player((x, y),self.display_surface,change_health)
+                    self.player.add(sprite)
                 if val == '2':
                     door_surface = pygame.image.load('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Start_Finish.png').convert_alpha()
                     sprite = StaticTile(tile_size,x,y,door_surface)
@@ -176,6 +176,9 @@ class Level:
                 if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
                     self.player.sprite.direction.y = -7
                     enemy.squish()
+                else:
+                    self.player.sprite.get_damage()#can setup this for different damage for boss
+
 
 
     def check_coin_collisions(self):
