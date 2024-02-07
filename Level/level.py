@@ -68,8 +68,8 @@ class Level:
 
 
                     if type == 'Collectables':
-                            if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Star')
-                            if val == '4': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin')
+                            if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Star',10)
+                            if val == '4': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin',1)
 
 
 
@@ -170,7 +170,7 @@ class Level:
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.collectables_sprites, True)
         if collided_coins:
             for coin in collided_coins:
-                self.change_score(1)
+                self.change_score(coin.value)
 
     def run(self):
 
