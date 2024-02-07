@@ -9,7 +9,7 @@ from Level_data import levels
 
 
 class Level:
-    def __init__(self,current_level, surface, load_overworld):
+    def __init__(self,current_level, surface, load_overworld,change_score):
         #General Setup
         self.display_surface = surface
         self.world_shift = 0
@@ -21,7 +21,8 @@ class Level:
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
 
-
+        #UI
+        self.change_score = change_score
 
         # player
         player_layout = import_csv_layout(level_data['Start/Stop'])
@@ -165,6 +166,11 @@ class Level:
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.load_overworld(self.current_level, self.new_max_level)
 
+    def check_coin_collisions(self):
+        collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.collectables_sprites, True)
+        if collided_coins:
+            for coin in collided_coins:
+                self.change_score(1)
 
     def run(self):
 
@@ -197,5 +203,6 @@ class Level:
         self.goal.draw(self.display_surface)
         self.check_death()
         self.check_win()
+        self.check_coin_collisions()
 
 
