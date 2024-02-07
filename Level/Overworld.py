@@ -1,6 +1,7 @@
 import pygame
 from Level_data import levels
 from support import import_folder
+from settings import *
 
 
 class Node(pygame.sprite.Sprite):
@@ -46,6 +47,9 @@ class Overworld:
         self.max_level = max_level
         self.current_level = start_level
         self.create_level = create_level
+        self.background_image = pygame.image.load('/Users/snax/Downloads/rh5Ug56s.jpg').convert()
+        self.background_image = pygame.transform.scale(self.background_image, (screen_width, screen_height))
+
 
         #logic
         self.move_direction = pygame.math.Vector2(0,0)
@@ -56,6 +60,9 @@ class Overworld:
         #sprites
         self.setup_nodes()
         self.setup_token()
+
+    def draw_background(self):
+        self.display_surface.blit(self.background_image, (0, 0))
 
     def setup_token(self):
         self.token = pygame.sprite.GroupSingle()
@@ -116,6 +123,7 @@ class Overworld:
 
 
     def run(self):
+        self.draw_background()
         self.draw_path()
         self.input()
         self.update_token()
