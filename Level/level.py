@@ -46,7 +46,7 @@ class Level:
         background_image_path = level_data.get('Background', '')
         self.background = Background(background_image_path, surface.get_size())
 
-        #Constraints must change
+        #Constraints
         constraint_layout = import_csv_layout(level_data['Constraints'])
         self.constraint_sprites = self.create_tile_group(constraint_layout, 'Constraints')
 
@@ -60,7 +60,7 @@ class Level:
                     y = row_index * tile_size
 
                     if type == 'Platform':
-                        platform_tile_list = import_graphics('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/tiles-6 2.png')
+                        platform_tile_list = import_graphics('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Platforms.png')
                         tile_surface = platform_tile_list[int(val)]
                         sprite = StaticTile(tile_size,x,y,tile_surface)
 

@@ -1,5 +1,5 @@
-vertical_tile_number = 30
-tile_size = 16
+vertical_tile_number = 45
+tile_size = 17
 
 screen_height = vertical_tile_number * tile_size
-screen_width = 600
+screen_width = 730
