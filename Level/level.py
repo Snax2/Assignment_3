@@ -1,18 +1,27 @@
 import pygame
 from support import import_csv_layout, import_graphics
-from settings import tile_size, screen_width
+from settings import *
 from tiles import Tile, StaticTile, Coin
 from Enemies import Enemy
 from Background import Background
 from player import Player
+from Level_data import levels
 
 
 class Level:
-    def __init__(self,level_data,surface):
+    def __init__(self,current_level, surface, load_overworld):
         #General Setup
         self.display_surface = surface
         self.world_shift = 0
         self.current_x = None
+
+        # overworld connection
+        self.load_overworld = load_overworld
+        self.current_level = current_level
+        level_data = levels[self.current_level]
+        self.new_max_level = level_data['unlock']
+
+
 
         # player
         player_layout = import_csv_layout(level_data['Start/Stop'])
@@ -148,6 +157,15 @@ class Level:
             self.world_shift = 0
             player.speed = 6
 
+    def check_death(self):
+        if self.player.sprite.rect.top > screen_height:
+            self.load_overworld(self.current_level, 0)
+
+    def check_win(self):
+        if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+            self.load_overworld(self.current_level, self.new_max_level)
+
+
     def run(self):
 
         #Background
@@ -177,6 +195,7 @@ class Level:
         self.player.draw(self.display_surface)
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
-
+        self.check_death()
+        self.check_win()
 
 

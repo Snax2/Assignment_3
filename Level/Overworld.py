@@ -72,7 +72,8 @@ class Overworld:
 
     def draw_path(self):
         points = [node['node_pos'] for index, node in enumerate(levels.values()) if index <= self.max_level]
-        pygame.draw.lines(self.display_surface,'green',False,points,5)
+        if len(points) >= 2:
+            pygame.draw.lines(self.display_surface, 'green', False, points, 5)
 
     def input(self):
         keys = pygame.key.get_pressed()

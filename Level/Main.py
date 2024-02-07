@@ -1,14 +1,38 @@
 import pygame, sys
 from settings import *
 from level import Level
-from Level_data import level_1
+from Overworld import Overworld
+from Level_data import levels
+
+class Game:
+    def __init__(self):
+        self.max_level = 0
+        self.overworld = Overworld(0,self.max_level,screen,self.create_level)
+        self.status = 'overworld'
+
+    def create_level(self, current_level):
+        self.level = Level(current_level, screen, self.load_overworld)
+        self.status = 'level'
+
+
+    def load_overworld(self, current_level, new_max_level):
+        if new_max_level > self.max_level:
+            self.max_level = new_max_level
+        self.overworld = Overworld(current_level,self.max_level,screen, self.create_level)
+        self.status = 'overworld'
+
+    def run(self):
+        if self.status == 'overworld':
+            self.overworld.run()
+        else:
+            self.level.run()
 
 #pygame setup
 pygame.init()
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
-level = Level(level_1,screen)
+game = Game()
 
 
 while True:
@@ -18,6 +42,6 @@ while True:
             sys.exit()
 
     screen.fill('grey')
-    level.run()
+    game.run()
     pygame.display.update()
     clock.tick(60)
