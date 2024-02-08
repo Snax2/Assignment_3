@@ -3,9 +3,6 @@ from support import import_folder
 import os
 from math import sin
 
-
-
-
 #Player sprite
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,surface,change_health):
@@ -24,11 +21,10 @@ class Player(pygame.sprite.Sprite):
         self.shoot = False
 
         #Audio
-        self.jump_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/maro-jump-sound-effect_1.mp3')
+        self.jump_sound = pygame.mixer.Sound('../Sounds/Sound Effects/Jump.mp3')
         self.jump_sound.set_volume(0.1)
-        self.hurt_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Bart Voice/159.wav')
+        self.hurt_sound = pygame.mixer.Sound('../Sounds/Bart Voice/Medic.wav')
         self.hurt_sound.set_volume(0.3)
-
 
         # User status
         self.status = 'Standing'
@@ -37,17 +33,16 @@ class Player(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_right = False
         self.on_left = False
+
         #Health
         self.change_health = change_health
         self.invincible = False
         self.invincibility_duration = 400
         self.hurt_time = 0
 
-
-
     def import_character_data(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        character_path = os.path.join(script_dir, '/Users/snax/Desktop/SUPER BART/Data/Images/Bart/Graphics/')
+        character_path = os.path.join(script_dir, '../Graphics/Graphics_Bart/')
         self.animations = {'Standing': [], 'Running': [], 'Jumping': [], 'Shooting': [], 'Jump_Shoot': [], 'Falling': []}
 
         for animation in self.animations.keys():
@@ -56,12 +51,9 @@ class Player(pygame.sprite.Sprite):
 
     def animate(self):
         animation = self.animations[self.status]
-
-        #looping frames
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
             self.frame_index = 0
-
         image = animation[int(self.frame_index)]
         if self.right_facing:
             self.image = image
@@ -73,7 +65,6 @@ class Player(pygame.sprite.Sprite):
             self.image.set_alpha(alpha)
         else:
             self.image.set_alpha(225)
-
         if self.on_ground and self.on_right:
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
         elif self.on_ground and self.on_left:
@@ -87,11 +78,8 @@ class Player(pygame.sprite.Sprite):
         elif self.on_ceiling:
             self.rect = self.image.get_rect(midtop=self.rect.midtop)
 
-
-    #User input
     def get_input(self):
         keys = pygame.key.get_pressed()
-
         if keys[pygame.K_RIGHT]:
             self.direction.x = 1
             self.right_facing = True
@@ -108,14 +96,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.stop_shooting()
 
-
     def start_shooting(self):
         self.is_shooting = True
 
     def stop_shooting(self):
         self.is_shooting = False
 
-    #jump height
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
@@ -124,7 +110,6 @@ class Player(pygame.sprite.Sprite):
 
     def get_status(self):
         if self.direction.y < 0 or self.direction.y > 1:
-
             if self.is_shooting:
                 self.status = 'Jump_Shoot'
             else:
@@ -156,7 +141,6 @@ class Player(pygame.sprite.Sprite):
         value = sin(pygame.time.get_ticks())
         if value >= 0: return 225
         else: return 0
-
 
     def update(self):
         self.get_input()

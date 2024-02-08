@@ -4,7 +4,7 @@ from level import Level
 from Overworld import Overworld
 from UI import UI
 
-
+SOUNDS_DIR = '../Sounds'
 
 class Game:
     def __init__(self):
@@ -16,10 +16,8 @@ class Game:
         self.score = 0
 
         #Audio
-        self.level_background_music = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/Level_1.mp3')
-        self.overworld_background_music = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/Overworld.mp3')
-
-
+        self.level_background_music = pygame.mixer.Sound(f"{SOUNDS_DIR}/Sound Effects/Level_1.mp3")
+        self.overworld_background_music = pygame.mixer.Sound(f"{SOUNDS_DIR}/Sound Effects/Overworld.mp3")
 
         #Overworld
         self.overworld = Overworld(0,self.max_level,screen,self.create_level)
@@ -35,10 +33,6 @@ class Game:
         self.overworld_background_music.stop()
         self.level_background_music.play(loops = -1)
 
-
-
-
-
     def load_overworld(self, current_level, new_max_level):
         if new_max_level > self.max_level:
             self.max_level = new_max_level
@@ -46,8 +40,6 @@ class Game:
         self.status = 'overworld'
         self.overworld_background_music.play(loops = -1)
         self.level_background_music.stop()
-
-
 
     def change_score(self,amount):
         self.score += amount
@@ -70,7 +62,6 @@ class Game:
             self.overworld.run()
         else:
             self.level.run()
-
             self.ui.show_health(self.current_health, self.max_health)
             self.ui.show_score(self.score)
             self.game_over()

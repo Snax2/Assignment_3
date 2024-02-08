@@ -9,7 +9,7 @@ class UI:
         # Health bar images
         self.health_bar_images = []
         for i in range(9):
-            image_path = f'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Health/Health_{i}.png'
+            image_path = f'../Graphics/Health/Health_{i}.png'
             self.health_bar_images.append(pygame.image.load(image_path).convert_alpha())
 
         # Current health index
@@ -20,9 +20,9 @@ class UI:
 
 
         #Coins
-        self.score = pygame.image.load('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin/Coin_1.png').convert_alpha()
+        self.score = pygame.image.load('../Graphics/Coin/Coin_1.png').convert_alpha()
         self.score_rect = self.score.get_rect(topleft = (50,200))#change??
-        self.font = pygame.font.Font('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/ARCADEPI.TTF',20)
+        self.font = pygame.font.Font('../Graphics/ARCADEPI.TTF',20)
 
     def show_health(self, current_health, max_health):
         # Update health bar index based on current health

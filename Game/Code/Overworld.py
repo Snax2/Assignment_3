@@ -15,26 +15,22 @@ class Node(pygame.sprite.Sprite):
         else:
             self.status = 'locked'
         self.rect = self.image.get_rect(center=pos)
-
         center_width = int(self.rect.width * 0.2)
         center_height = int(self.rect.height * 0.2)
-
         self.detection_zone = pygame.Rect(
             self.rect.centerx - (center_width / 2),
             self.rect.centery - (center_height / 2),
             center_width,
             center_height)
 
-
     def status(self, param):
         pass
-
 
 class Token(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
         self.pos = pos
-        self.image = pygame.image.load('/Users/snax/Desktop/SUPER BART/Data/Images/Bart/Graphics/Standing/Bart_Standing.png')
+        self.image = pygame.image.load('../Graphics/Graphics_Bart/Standing/Bart_Standing.png')
         self.rect = self.image.get_rect(center = pos)
 
     def update(self):
@@ -48,15 +44,13 @@ class Overworld:
         self.max_level = max_level
         self.current_level = start_level
         self.create_level = create_level
-        self.background_image = pygame.image.load('/Users/snax/Downloads/rh5Ug56s.jpg').convert()
+        self.background_image = pygame.image.load('../Graphics/Overworld_background.jpg').convert()
         self.background_image = pygame.transform.scale(self.background_image, (screen_width, screen_height))
-
 
         #logic
         self.move_direction = pygame.math.Vector2(0,0)
         self.speed = 9
         self.moving = False
-
 
         #sprites
         self.setup_nodes()
@@ -75,7 +69,6 @@ class Overworld:
 
     def setup_nodes(self):
         self.nodes = pygame.sprite.Group()
-
         for index, node_data in enumerate(levels.values()):
             if index <= self.max_level:
                 node_sprite = Node(node_data['node_pos'], 'available',self.speed,node_data['node_graphics'])
@@ -90,7 +83,6 @@ class Overworld:
 
     def input(self):
         keys = pygame.key.get_pressed()
-
         if not self.moving and self.allow_input:
             if keys[pygame.K_RIGHT] and self.current_level < self.max_level:
                 self.move_direction = self.get_movement_data('next')
@@ -109,10 +101,7 @@ class Overworld:
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level + 1].rect.center)
         else:
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level - 1].rect.center)
-
         return (end - start).normalize()
-
-
 
     def update_token(self):
         if self.moving and self.move_direction:
@@ -130,7 +119,6 @@ class Overworld:
             current_time = pygame.time.get_ticks()
             if current_time - self.start_time >= self.timer_length:
                 self.allow_input = True
-
 
     def run(self):
         self.draw_background()

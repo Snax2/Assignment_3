@@ -14,10 +14,7 @@ def import_folder(path, valid_extensions=('.png', '.jpg', '.jpeg', '.gif')):
                 full_path = os.path.join(path, image)
                 image_surface = pygame.image.load(full_path).convert_alpha()
                 surface_list.append(image_surface)
-
     return surface_list
-
-
 
 def import_csv_layout(path):
     platform_map = []
@@ -40,7 +37,6 @@ def import_graphics(path):
             new_surface = pygame.Surface((tile_size,tile_size),flags = pygame.SRCALPHA)
             new_surface.blit(surface, (0,0),pygame.Rect(x,y,tile_size,tile_size))
             cut_tiles.append(new_surface)
-
     return cut_tiles
 
 

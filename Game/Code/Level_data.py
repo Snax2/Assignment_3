@@ -1,7 +1,5 @@
-# Assuming "Main.py" is one level above all level data and graphics folders
 LEVELS_DIR = "../Levels"
 GRAPHICS_DIR = "../Graphics"
-
 
 level_0 = {
     'Platforms': f"{LEVELS_DIR}/Level_1/Level_1_Platforms.csv",
@@ -45,7 +43,7 @@ level_3 = {
     'Enemies': f"{LEVELS_DIR}/Level_4/Level_4_Enemies.csv",
     'Collectables': f"{LEVELS_DIR}/Level_4/Level_4_Collectables.csv",
     'Start/Stop': f"{LEVELS_DIR}/Level_4/Level_4_Start_Stop.csv",
-    'Background': f"{GRAPHICS_DIR}/snow_background.jpg",  # Or update if level-specific
+    'Background': f"{GRAPHICS_DIR}/snow_background.jpg",
     'node_pos': (400, 300),
     'node_graphics': f"{GRAPHICS_DIR}/Level_4_Title/",
     'unlock': 3

@@ -20,10 +20,11 @@ class Level:
         self.current_level = current_level
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
-
+        SOUNDS_DIR = '../Sounds'
         #Audio
-        self.coin_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/mario-coin-sound-effect.mp3')
-        self.squish_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/mario-yipee.mp3')
+        self.coin_sound = pygame.mixer.Sound(f'{SOUNDS_DIR}/Sound Effects/mario-coin-sound-effect.mp3')
+
+        self.squish_sound = pygame.mixer.Sound(f'{SOUNDS_DIR}/Sound Effects/mario-yipee.mp3')
         #UI
         self.change_score = change_score
 
@@ -64,15 +65,15 @@ class Level:
                     y = row_index * tile_size
 
                     if type == 'Platform':
-                        platform_tile_list = import_graphics('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Platforms.png')
+                        platform_tile_list = import_graphics('../Graphics/Platforms.png')
                         tile_surface = platform_tile_list[int(val)]
                         sprite = StaticTile(tile_size,x,y,tile_surface)
 
 
 
                     if type == 'Collectables':
-                            if val == '0': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Star',10)
-                            if val == '4': sprite = Coin(tile_size,x,y,'/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Coin',1)
+                            if val == '0': sprite = Coin(tile_size,x,y,'../Graphics/Star',10)
+                            if val == '4': sprite = Coin(tile_size,x,y,'../Graphics/Coin',1)
 
 
 
@@ -95,7 +96,7 @@ class Level:
                     sprite = Player((x, y),self.display_surface,change_health)
                     self.player.add(sprite)
                 if val == '2':
-                    door_surface = pygame.image.load('/Users/snax/Desktop/SUPER BART/Level/Level/Graphics/Start_Finish.png').convert_alpha()
+                    door_surface = pygame.image.load('../Graphics/Start_Finish.png').convert_alpha()
                     sprite = StaticTile(tile_size,x,y,door_surface)
                     self.goal.add(sprite)
 
