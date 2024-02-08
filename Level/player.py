@@ -1,6 +1,7 @@
 import pygame
 from support import import_folder
 import os
+from math import sin
 
 
 
@@ -22,6 +23,11 @@ class Player(pygame.sprite.Sprite):
         self.jump_height = -10
         self.shoot = False
 
+        #Audio
+        self.jump_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/maro-jump-sound-effect_1.mp3')
+        self.jump_sound.set_volume(0.1)
+        self.hurt_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Bart Voice/159.wav')
+        self.hurt_sound.set_volume(0.3)
 
 
         # User status
@@ -33,9 +39,9 @@ class Player(pygame.sprite.Sprite):
         self.on_left = False
         #Health
         self.change_health = change_health
-        #self.invincible = False
-        #self.invincibility_duration = 400
-        #self.hurt_time = 0
+        self.invincible = False
+        self.invincibility_duration = 400
+        self.hurt_time = 0
 
 
 
@@ -62,7 +68,12 @@ class Player(pygame.sprite.Sprite):
         else:
             flip_image = pygame.transform.flip(image,True,False)
             self.image = flip_image
-        #
+        if self.invincible:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(225)
+
         if self.on_ground and self.on_right:
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
         elif self.on_ground and self.on_left:
@@ -91,6 +102,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
+            self.jump_sound.play()
         if keys[pygame.K_s]:
             self.start_shooting()
         else:
@@ -112,6 +124,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_status(self):
         if self.direction.y < 0 or self.direction.y > 1:
+
             if self.is_shooting:
                 self.status = 'Jump_Shoot'
             else:
@@ -125,11 +138,30 @@ class Player(pygame.sprite.Sprite):
                     self.status = 'Running'
             else:
                 self.status = 'Standing'
+
     def get_damage(self):
-        self.change_health(-10)
+        if not self.invincible:
+            self.change_health(-10)
+            self.invincible = True
+            self.hurt_time = pygame.time.get_ticks()
+            self.hurt_sound.play()
+
+    def invincibility_timer(self):
+        if self.invincible:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.hurt_time >=self.invincibility_duration:
+                self.invincible = False
+
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0: return 225
+        else: return 0
+
 
     def update(self):
         self.get_input()
         self.get_status()
         self.animate()
+        self.invincibility_timer()
+        self.wave_value()
 

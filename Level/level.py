@@ -21,6 +21,9 @@ class Level:
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
 
+        #Audio
+        self.coin_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/mario-coin-sound-effect.mp3')
+        self.squish_sound = pygame.mixer.Sound('/Users/snax/Desktop/SUPER BART/Data/Sounds/Sound Effects/mario-yipee.mp3')
         #UI
         self.change_score = change_score
 
@@ -121,7 +124,6 @@ class Level:
         if player.on_right and (player.rect.right > self.current_x or player.direction.x <= 0):
             player.on_right = False
 
-    #Vertical
     def vertical_collission(self):
         player = self.player.sprite
         player.apply_gravity()
@@ -142,7 +144,6 @@ class Level:
         if player.on_ceiling and player.direction.y > 0:
             player.on_ceiling = False
 
-    #camera scrolling
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.centerx
@@ -166,6 +167,7 @@ class Level:
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.load_overworld(self.current_level, self.new_max_level)
 
+
     def check_enemy_collisions(self):
         enemy_collisions = pygame.sprite.spritecollide(self.player.sprite,self.enemy_sprites,False)
         if enemy_collisions:
@@ -176,16 +178,16 @@ class Level:
                 if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
                     self.player.sprite.direction.y = -7
                     enemy.squish()
+                    self.squish_sound.play()
                 else:
                     self.player.sprite.get_damage()#can setup this for different damage for boss
-
-
 
     def check_coin_collisions(self):
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.collectables_sprites, True)
         if collided_coins:
             for coin in collided_coins:
                 self.change_score(coin.value)
+                self.coin_sound.play()
 
     def run(self):
 
@@ -220,4 +222,5 @@ class Level:
         self.check_win()
         self.check_coin_collisions()
         self.check_enemy_collisions()
+
 

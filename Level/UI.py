@@ -34,6 +34,8 @@ class UI:
         # Display current health image
         self.display_surface.blit(self.health_bar_images[self.current_health_index], self.health_bar_rect)
 
+
+
     def show_score(self,amount):
         self.display_surface.blit(self.score,self.score_rect)
         score_surface = self.font.render(str(amount),False,'red')
