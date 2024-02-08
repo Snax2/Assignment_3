@@ -21,10 +21,12 @@ class Level:
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
         SOUNDS_DIR = '../Sounds'
+
         #Audio
         self.coin_sound = pygame.mixer.Sound(f'{SOUNDS_DIR}/Sound Effects/mario-coin-sound-effect.mp3')
-
+        self.death_sound = pygame.mixer.Sound(f"{SOUNDS_DIR}/Sound Effects/Die.wav")
         self.squish_sound = pygame.mixer.Sound(f'{SOUNDS_DIR}/Sound Effects/mario-yipee.mp3')
+
         #UI
         self.change_score = change_score
 
@@ -166,6 +168,7 @@ class Level:
 
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+
             self.load_overworld(self.current_level, self.new_max_level)
 
 
@@ -181,7 +184,7 @@ class Level:
                     enemy.squish()
                     self.squish_sound.play()
                 else:
-                    self.player.sprite.get_damage()#can setup this for different damage for boss
+                    self.player.sprite.get_damage()
 
     def check_coin_collisions(self):
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.collectables_sprites, True)

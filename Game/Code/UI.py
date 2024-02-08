@@ -18,23 +18,21 @@ class UI:
         # Health bar position and dimensions
         self.health_bar_rect = self.health_bar_images[0].get_rect(topleft=(20, 10))
 
-
         #Coins
         self.score = pygame.image.load('../Graphics/Coin/Coin_1.png').convert_alpha()
-        self.score_rect = self.score.get_rect(topleft = (50,200))#change??
+        self.score_rect = self.score.get_rect(topleft = (50,120))
         self.font = pygame.font.Font('../Graphics/ARCADEPI.TTF',20)
 
     def show_health(self, current_health, max_health):
+
         # Update health bar index based on current health
         health_percent = current_health / max_health
-        new_health_index = int((1 - health_percent) * (len(self.health_bar_images) - 1))  # Invert health_percent
+        new_health_index = int((1 - health_percent) * (len(self.health_bar_images) - 1))
         if new_health_index != self.current_health_index:
             self.current_health_index = new_health_index
 
         # Display current health image
         self.display_surface.blit(self.health_bar_images[self.current_health_index], self.health_bar_rect)
-
-
 
     def show_score(self,amount):
         self.display_surface.blit(self.score,self.score_rect)

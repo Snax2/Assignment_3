@@ -16,8 +16,8 @@ class Player(pygame.sprite.Sprite):
         #Player movement
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 6
-        self.gravity = 0.4
-        self.jump_height = -10
+        self.gravity = 0.42
+        self.jump_height = -9.6
         self.shoot = False
 
         #Audio

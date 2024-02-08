@@ -10,14 +10,16 @@ class Game:
     def __init__(self):
 
         #Game attributes
-        self.max_level = 3
+        self.max_level = 0
         self.max_health = 100
         self.current_health = 100
         self.score = 0
 
+
         #Audio
         self.level_background_music = pygame.mixer.Sound(f"{SOUNDS_DIR}/Sound Effects/Level_1.mp3")
         self.overworld_background_music = pygame.mixer.Sound(f"{SOUNDS_DIR}/Sound Effects/Overworld.mp3")
+        self.death_sound = pygame.mixer.Sound (f"{SOUNDS_DIR}/Sound Effects/Die.wav")
 
         #Overworld
         self.overworld = Overworld(0,self.max_level,screen,self.create_level)
@@ -44,11 +46,16 @@ class Game:
     def change_score(self,amount):
         self.score += amount
 
+
+
     def change_health(self,amount):
         self.current_health += amount
 
     def game_over(self):
         if self.current_health <= 0:
+            self.level_background_music.stop()
+            self.death_sound.play()
+            pygame.time.wait(int(self.death_sound.get_length() * 1000))
             self.current_health = 100
             self.score = 0
             self.max_level = 0
