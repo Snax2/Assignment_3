@@ -28,7 +28,13 @@ class Interface(Main):
         self.language_list = list(self.languages.values())
         
         self.label = tk.Label(self.root, text="Welcome to the Language Translator", font = ("Agency FB", 18))
-        self.label.grid(row = 0, column = 2, pady = 10)
+        self.label.grid(row = 0, column = 2, ipadx = 10, pady = 10)
+
+        self.label = tk.Label(self.root, text="Enter your text:", font = ("Agency FB", 14))
+        self.label.grid(row = 0, column = 1, ipadx = 20)
+
+        self.label = tk.Label(self.root, text="Translated text:", font = ("Agency FB", 14))
+        self.label.grid(row = 0, column = 3, ipadx = 20)
 
         self.input_text = tk.Text(self.root, height = 20, width = 45)
         self.input_text.grid(row = 1, column = 1, pady=10, padx = 10)
@@ -44,10 +50,10 @@ class Interface(Main):
         self.output_language.grid(row = 2, column = 3, pady=10, padx = 10)
         self.output_language.current(15)
 
-        self.translate_button = tk.Button(self.root, text="Translate", font = (14), command = self.translate_text)
+        self.translate_button = tk.Button(self.root, text="Translate", font = ("Agency FB", 22), background = ("#F9E988"), command = self.translate_text)
         self.translate_button.grid(row = 2, column = 2)
 
-        self.clear_button = tk.Button(self.root, text = "CLEAR", font = (12), bg = "Red", command = self.clear_all)
+        self.clear_button = tk.Button(self.root, text = "CLEAR", font = (12), bg =  ("#D2736B") , command = self.clear_all)
         self.clear_button.grid(row = 1, column = 2)
 
         self.messagebox = messagebox
